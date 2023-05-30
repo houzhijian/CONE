@@ -17,16 +17,15 @@ This repo supports data pre-processing, training and evaluation of both Ego4D-NL
 
 ## 📢 News
 - [2023.5.30] We release the CONE codebase.
-- [2022.10.24] CONE model won [**3rd place** in NLQ](https://eval.ai/web/challenges/challenge-page/1629/overview)  
-@ [Ego4D Challenge 2022](https://ego4d-data.org/workshops/eccv22/), hosted by ECCV 2022. Please refer to [Ego4D-NLQ_ECCV_2022_workshop](./ECCV_2022_workshop/README.md) for detailed information.
+- [2022.10.24] CONE model won [**3rd place** in NLQ](https://eval.ai/web/challenges/challenge-page/1629/overview)@ [Ego4D Challenge 2022](https://ego4d-data.org/workshops/eccv22/), hosted by ECCV 2022. Please refer to [Ego4D-NLQ_ECCV_2022_workshop](./ECCV_2022_workshop/README.md) for detailed information.
 <!--- (- [2022.9.22] We release the [arXiv preprint](https://arxiv.org/abs/2107.09609) paper.) --->
 
 
 ## 🗄 Table of Contents
 
 * [Preparation](#Preparation)
-    * [Install dependencies ](#Install dependencies )
-    * [Prepare offline data (e.g., features and files)](Prepare offline data)
+    * [Install dependencies](#Install-dependencies)
+    * [Prepare offline data (e.g., features and files)](Prepare-offline-data)
 * [Experiments](#Experiments)
     * [Ego4D-NLQ benchmark](#Ego4D)
       * [Train](#Ego4D-NLQ-training)
@@ -42,11 +41,12 @@ This repo supports data pre-processing, training and evaluation of both Ego4D-NL
 
 
 ## 📝 Preparation
-### Install dependencies 
+
+### Install-dependencies 
 * Follow [INSTALL.md](./INSTALL.md) for installing necessary dependencies and compiling the code.
 
 
-### Prepare offline data
+### Prepare-offline-data
 
 ### 
 - Download full Ego4D-NLQ data [Ego4D-NLQ](https://drive.google.com/file/d/1QsG7Jp8tYjisvZkMZiB5r1stAsVo86EY/view?usp=sharing) (8.29GB).

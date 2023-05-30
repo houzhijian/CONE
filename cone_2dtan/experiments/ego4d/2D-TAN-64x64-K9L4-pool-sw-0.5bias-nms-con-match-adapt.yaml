@@ -1,0 +1,101 @@
+WORKERS: 8
+
+MODEL_DIR: ./checkpoints
+RESULT_DIR: ./results
+LOG_DIR: ./log
+DATA_DIR: ./data/Ego4d
+
+DATASET:
+  NAME: Ego4d
+  APPEARANCE_FEAT_DIR: /s1_md0/leiji/v-zhijian/ego4d_nlq_data_for_cone/offline_lmdb/egovlp_video_feature_1.875fps
+  Q_FEAT_DIR: /s1_md0/leiji/v-zhijian/ego4d_nlq_data_for_cone/offline_lmdb/egovlp_egovlp_text_features
+  NO_VAL: True
+  NUM_SAMPLE_CLIPS: 64
+  CLIP_LEN: 0.5333
+  TARGET_STRIDE: 1
+  NORMALIZE: True
+  RANDOM_SAMPLING: False
+  OUTPUT_SUFFIX: pool-sw-0.5bias-nms-con-match-adapt
+
+TEST:
+  BATCH_SIZE: 12
+  RECALL: 1,5
+  TIOU: 0.3,0.5
+  EVAL_TRAIN: False
+  NMS_THRESH: 0.5
+  USE_NMS_WITHIN_WINDOW: True
+  PROPOSAL_TOP_K: 10
+  EPOCH_INTERVAL: 3
+
+
+CUDNN:
+  DETERMINISTIC: False
+  BENCHMARK: True
+
+TRAIN:
+  BATCH_SIZE: 32
+  LR: 0.0001
+  MAX_EPOCH: 90
+  WEIGHT_DECAY: 0.0000
+  CONTINUE: False
+  CONTRASTIVE_LOSS: True
+  ADAPTER_LOSS: True
+
+LOSS:
+  NAME: bce_rescale_loss
+  PARAMS:
+    MIN_IOU: 0.3
+    MAX_IOU: 0.7
+    BIAS: 0.5
+
+TAN:
+
+  FRAME_MODULE:
+    NAME: FrameAvgPool
+    PARAMS:
+      INPUT_SIZE: 256
+      HIDDEN_SIZE: 256
+      KERNEL_SIZE: 1
+      STRIDE: 1
+
+  PROP_MODULE:
+    NAME: SparsePropMaxPool
+    PARAMS:
+      HIDDEN_SIZE: 256
+      NUM_SCALE_LAYERS: [16,8,8]
+
+  FUSION_MODULE:
+    NAME: BaseFusion
+    PARAMS:
+      HIDDEN_SIZE: 256
+      TXT_INPUT_SIZE: 768
+      TXT_HIDDEN_SIZE: 256
+      LSTM:
+        NUM_LAYERS: 3
+        BIDIRECTIONAL: False
+
+  MAP_MODULE:
+    NAME: MapConv
+    PARAMS:
+      INPUT_SIZE: 256
+      HIDDEN_SIZES: [256, 256, 256, 256]
+      KERNEL_SIZES: [9, 9, 9, 9]
+      STRIDES: [1, 1, 1, 1]
+      PADDINGS: [16, 0, 0, 0]
+      DILATIONS: [1, 1, 1, 1]
+
+
+  ADAPTER_MODULE:
+    NAME: VisualAdapter
+    PARAMS:
+      INPUT_SIZE: 256
+      HIDDEN_SIZE: 256
+      NUM_LAYERS: 2
+
+  PRED_INPUT_SIZE: 256
+
+MODEL:
+  NAME: CONE_TAN
+  ADAPTER: linear
+  USE_MATCHING_SCORE: True
+  CHECKPOINT: ./checkpoints/Ego4d/CONE_TAN_pool-sw-0.5bias-nms-con-match-adapt_2023_01_12_01_05_10/iter014812-0.1033-0.2543.pkl

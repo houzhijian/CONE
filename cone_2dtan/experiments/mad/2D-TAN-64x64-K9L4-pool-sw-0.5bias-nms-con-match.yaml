@@ -1,0 +1,94 @@
+WORKERS: 8
+
+MODEL_DIR: ./checkpoints
+RESULT_DIR: ./results
+LOG_DIR: ./log
+DATA_DIR: ./data/MAD
+
+DATASET:
+  NAME: MAD
+  APPEARANCE_FEAT_DIR: /s1_md0/leiji/v-zhijian/MAD/MAD_data/CLIP_frames_features_5fps
+  Q_FEAT_DIR: /s1_md0/leiji/v-zhijian/mad_data_for_cone/offline_lmdb/clip_clip_text_features
+  NO_VAL: True
+  NUM_SAMPLE_CLIPS: 128
+  CLIP_LEN: 0.2
+  TARGET_STRIDE: 2
+  NORMALIZE: True
+  RANDOM_SAMPLING: False
+  OUTPUT_SUFFIX: pool-sw-0.5bias-nms-con-match
+
+TEST:
+  BATCH_SIZE: 12
+  RECALL: 1,5,10,50
+  TIOU: 0.3,0.5
+  EVAL_TRAIN: False
+  NMS_THRESH: 0.5
+  USE_NMS_WITHIN_WINDOW: True
+  PROPOSAL_TOP_K: 10
+  EPOCH_INTERVAL: 1
+  NMS_TOP_K: 50
+  INTERVAL: 4
+
+
+CUDNN:
+  DETERMINISTIC: False
+  BENCHMARK: True
+
+TRAIN:
+  BATCH_SIZE: 32
+  LR: 0.0001
+  MAX_EPOCH: 8
+  WEIGHT_DECAY: 0.0000
+  CONTINUE: False
+  CONTRASTIVE_LOSS: True
+  ADAPTER_LOSS: False
+
+LOSS:
+  NAME: bce_rescale_loss
+  PARAMS:
+    MIN_IOU: 0.3
+    MAX_IOU: 0.7
+    BIAS: 0.5
+
+TAN:
+
+  FRAME_MODULE:
+    NAME: FrameAvgPool
+    PARAMS:
+      INPUT_SIZE: 512
+      HIDDEN_SIZE: 256
+      KERNEL_SIZE: 2
+      STRIDE: 2
+
+  PROP_MODULE:
+    NAME: SparsePropMaxPool
+    PARAMS:
+      HIDDEN_SIZE: 256
+      NUM_SCALE_LAYERS: [16,8,8]
+
+  FUSION_MODULE:
+    NAME: BaseFusion
+    PARAMS:
+      HIDDEN_SIZE: 256
+      TXT_INPUT_SIZE: 512
+      TXT_HIDDEN_SIZE: 256
+      LSTM:
+        NUM_LAYERS: 3
+        BIDIRECTIONAL: False
+
+  MAP_MODULE:
+    NAME: MapConv
+    PARAMS:
+      INPUT_SIZE: 256
+      HIDDEN_SIZES: [256, 256, 256, 256]
+      KERNEL_SIZES: [9, 9, 9, 9]
+      STRIDES: [1, 1, 1, 1]
+      PADDINGS: [16, 0, 0, 0]
+      DILATIONS: [1, 1, 1, 1]
+
+  PRED_INPUT_SIZE: 256
+
+MODEL:
+  NAME: CONE_TAN
+  USE_MATCHING_SCORE: True
+  CHECKPOINT: ./checkpoints/Ego4d/iter009352-0.5875-0.8565.pkl

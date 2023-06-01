@@ -120,7 +120,7 @@ bash cone/scripts/inference_ego4d.sh CUDA_DEVICE_ID CHECKPOINT_PATH EVAL_ID  --n
 bash cone/scripts/inference_ego4d_test.sh CUDA_DEVICE_ID CHECKPOINT_PATH EVAL_ID --nms_thd 0.5  --topk_window 20
 ```
 where `CUDA_DEVICE_ID` is cuda device id, `CHECKPOINT_PATH` is the path to the saved checkpoint, `EVAL_ID` is a name string for evaluation id.
-We adopt Non-Maximum Suppression (NMS) with a threshold of 0.5 and set pre-filtering window number as 30.
+We adopt Non-Maximum Suppression (NMS) with a threshold of 0.5 and set pre-filtering window number as 20.
 
 * The results (Recall@K at IoU = 0.3 or 0.5) on the val. set should be similar to the performance of the below table reported in the main paper.
 
@@ -131,7 +131,7 @@ We adopt Non-Maximum Suppression (NMS) with a threshold of 0.5 and set pre-filte
 In additional, we provide our experiment log files [Ego4D-NLQ-Training-Sample](https://drive.google.com/file/d/1HSF7ZWIP4ay0IU4jC8prulbZ1RGvz-TS/view?usp=sharing)(24MB).
 
 Note that we inference on 3874 queries in validation split, but [NaQ](https://github.com/srama2512/NaQ) removes zero-duration ground-truth queries and inferences on 3529 queries in validation split .
-The performance of CONE will be higher if we use the same validation split of NaQ.
+The performance of CONE will be higher (i.e., multiplied by 3874/3529=1.098) if we use the same validation split of NaQ.
 
 ### MAD
 #### MAD-training

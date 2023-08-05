@@ -442,7 +442,7 @@ def eval_epoch(model, eval_inter_window_dataset, eval_intra_window_dataset, opt,
                 results, mIoU, thresholds, topK, title=title
             )
             print(score_str, flush=True)
-            exit(1)
+            # exit(1)
 
             # Proposal score
             results_proposal, mIoU_proposal = ego4d_eval.evaluate_nlq_performance(

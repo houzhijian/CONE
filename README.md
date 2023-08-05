@@ -1,6 +1,6 @@
 # CONE: An Efficient COarse-to-fiNE Alignment Framework for Long Video Temporal Grounding
 
-[ArXiv Preprint](https://arxiv.org/abs/2107.09609)
+[ACL anthology](https://aclanthology.org/2023.acl-long.445/)
 
 
 > **TL;DR:**  CONE (see overview below) deals with an emerging and challenging problem of
